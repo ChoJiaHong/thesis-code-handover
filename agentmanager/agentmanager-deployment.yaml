@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agentmanager-deployment
+  namespace: arha-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agentmanager
+  template:
+    metadata:
+      labels:
+        app: agentmanager
+    spec:
+      containers:
+        - name: agentmanager
+          image: harbor.pdc.tw/yuchiehpaper/agentmanager:latest
+          #image: hiro08081/agentmanager:
+          ports:
+            - name: http
+              containerPort: 8888
+            - name: websocket
+              containerPort: 50051
+          command: ["python3", "AgentManager_websocket_refact.py"]
+          args:
+          - "1"                    # Agent_Host 數量
+          - "<AGENT_HOST_IP>"      # Agent_Host（Computing Node）內部IP，依實際環境填入
+          - "<AGENT_HOST_ACCOUNT>" # Agent_Host SSH帳號，依實際環境填入
+          - "<AGENT_HOST_PASSWORD>" # Agent_Host SSH密碼，依實際環境填入
+          volumeMounts:
+            - name: logs-volume
+              mountPath: /app/logs
+      volumes:
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: arha-logs-pvc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: arha-node-type
+                operator: In
+                values:
+                - controller-node
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

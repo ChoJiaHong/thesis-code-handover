@@ -1,0 +1,54 @@
+{
+  "_comment": [
+  ],
+  "fps_thresholds": {
+    "_comment": "對齊 serviceSpec_mul.json frequencyLimit[1]",
+    "pose":    10,
+    "gesture": 10,
+    "object":  10
+  },
+  "users": {
+    "a1":  ["pose", "gesture"],
+    "a2":  ["pose", "gesture"],
+    "a3":  ["pose", "gesture"],
+    "a4":  ["pose", "gesture"],
+    "a5":  ["pose", "gesture"],
+    "a6":  ["pose", "gesture"],
+    "a7":  ["pose", "gesture"],
+    "a8":  ["pose", "gesture"],
+    "a9":  ["pose", "gesture"],
+    "a10": ["pose", "gesture"],
+    "a11": ["pose", "gesture"],
+    "a12": ["pose", "gesture"],
+    "b1":  ["pose", "object"],
+    "b2":  ["pose", "object"],
+    "b3":  ["pose", "object"],
+    "b4":  ["pose", "object"],
+    "b5":  ["pose", "object"],
+    "b6":  ["pose", "object"],
+    "b7":  ["pose", "object"],
+    "b8":  ["pose", "object"],
+    "b9":  ["pose", "object"],
+    "b10": ["pose", "object"],
+    "b11": ["pose", "object"],
+    "b12": ["pose", "object"],
+    "e1": ["gesture", "object"],
+    "e2": ["gesture", "object"],
+    "e3": ["gesture", "object"],
+    "e4": ["gesture", "object"],
+    "e5": ["gesture", "object"],
+    "e6": ["gesture", "object"],
+    "e7": ["gesture", "object"],
+    "e8": ["gesture", "object"],
+    "e9": ["gesture", "object"],
+    "e10": ["gesture", "object"],
+    "e11": ["gesture", "object"],
+    "e12": ["gesture", "object"]
+   
+
+
+
+    
+
+  }
+}

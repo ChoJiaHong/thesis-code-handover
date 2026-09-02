@@ -1,0 +1,17 @@
+{
+    "solver_mode": "ga_bf",
+    "ga_routing": "optimize",
+    "admission_control": null,
+    "phase1_enabled": true,
+    "deploy_switch_policy": "nsat_only",
+    "q_switch_min_gain": 0.01,
+    "notify_wave_gap_s": 0.0,
+    "pre_delete_gap_s": 0.0,
+    "ga_pop_size": 20,
+    "ga_generations": 150,
+    "ga_n_restarts": 1,
+    "ga_time_limit": 1,
+    "minlp_time_limit": 30,
+    "minlp_rel_gap": 0.1,
+    "minlp_max_nodes": 10000
+}

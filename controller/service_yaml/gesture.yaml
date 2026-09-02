@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gesture-workergpu-30501-2
+  labels:
+    app: gesture
+    monitor: ml_server
+spec:
+  runtimeClassName: nvidia
+  shareProcessNamespace: true  # 啟用進程共享
+  nodeSelector:
+    kubernetes.io/hostname: workgpu
+    
+  containers:
+  - name: gesture
+    image:  hiro08081/infer_server:9
+    command: ["python", "main.py"]
+    env:
+    - name: SERVICE
+      value: "gesture"
+    - name: GRPC_PORT  # 新增 port 環境變數
+      value: "50051"
+    - name: QUEUE_TIMEOUT
+      value: "3"
+    readinessProbe:
+      grpc:
+        port: 50051
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    ports:
+    - containerPort: 50051
+      hostPort: 30501
+    - containerPort: 8001
+      name: http-metrics
+    resources:
+      limits:
+        nvidia.com/gpu: 1

@@ -1,0 +1,6 @@
+{
+    "agent_controller_ip": "10.52.52.111",
+    "agent_controller_port": 30004,
+    "agent_ready_timeout": 45,
+    "agent_image": "hiro08081/agent_refactored:10"
+}

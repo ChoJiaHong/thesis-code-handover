@@ -1,0 +1,588 @@
+{
+  "services": [
+    "gesture",
+    "pose",
+    "object"
+  ],
+  "nodes": [
+    "ip-172-31-0-204",
+    "ip-172-31-1-171",
+    "ip-172-31-10-12",
+    "ip-172-31-11-132",
+    "ip-172-31-13-134",
+    "ip-172-31-14-68",
+    "ip-172-31-40-239"
+  ],
+  "agents": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13",
+    "e14",
+    "e15",
+    "e16",
+    "e17",
+    "e18",
+    "e19",
+    "e20",
+    "e21",
+    "e22",
+    "e23",
+    "e24",
+    "a1",
+    "a2",
+    "a3",
+    "a4",
+    "a5",
+    "a6",
+    "a7",
+    "a8",
+    "a9",
+    "a10",
+    "a11",
+    "a12",
+    "a13",
+    "a14",
+    "a15",
+    "a16",
+    "a17",
+    "a18",
+    "a19",
+    "a20",
+    "a21",
+    "a22",
+    "a23",
+    "a24",
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+    "b5",
+    "b6",
+    "b7",
+    "b8",
+    "b9",
+    "b10",
+    "b11",
+    "b12",
+    "b13",
+    "b14",
+    "b15",
+    "b16",
+    "b17",
+    "b18",
+    "b19",
+    "b20",
+    "b21",
+    "b22",
+    "b23",
+    "b24"
+  ],
+  "requirements": {
+    "e1": [
+      "gesture",
+      "object"
+    ],
+    "e2": [
+      "gesture",
+      "object"
+    ],
+    "e3": [
+      "gesture",
+      "object"
+    ],
+    "e4": [
+      "gesture",
+      "object"
+    ],
+    "e5": [
+      "gesture",
+      "object"
+    ],
+    "e6": [
+      "gesture",
+      "object"
+    ],
+    "e7": [
+      "gesture",
+      "object"
+    ],
+    "e8": [
+      "gesture",
+      "object"
+    ],
+    "e9": [
+      "gesture",
+      "object"
+    ],
+    "e10": [
+      "gesture",
+      "object"
+    ],
+    "e11": [
+      "gesture",
+      "object"
+    ],
+    "e12": [
+      "gesture",
+      "object"
+    ],
+    "e13": [
+      "gesture",
+      "object"
+    ],
+    "e14": [
+      "gesture",
+      "object"
+    ],
+    "e15": [
+      "gesture",
+      "object"
+    ],
+    "e16": [
+      "gesture",
+      "object"
+    ],
+    "e17": [
+      "gesture",
+      "object"
+    ],
+    "e18": [
+      "gesture",
+      "object"
+    ],
+    "e19": [
+      "gesture",
+      "object"
+    ],
+    "e20": [
+      "gesture",
+      "object"
+    ],
+    "e21": [
+      "gesture",
+      "object"
+    ],
+    "e22": [
+      "gesture",
+      "object"
+    ],
+    "e23": [
+      "gesture",
+      "object"
+    ],
+    "e24": [
+      "gesture",
+      "object"
+    ],
+    "a1": [
+      "pose",
+      "gesture"
+    ],
+    "a2": [
+      "pose",
+      "gesture"
+    ],
+    "a3": [
+      "pose",
+      "gesture"
+    ],
+    "a4": [
+      "pose",
+      "gesture"
+    ],
+    "a5": [
+      "pose",
+      "gesture"
+    ],
+    "a6": [
+      "pose",
+      "gesture"
+    ],
+    "a7": [
+      "pose",
+      "gesture"
+    ],
+    "a8": [
+      "pose",
+      "gesture"
+    ],
+    "a9": [
+      "pose",
+      "gesture"
+    ],
+    "a10": [
+      "pose",
+      "gesture"
+    ],
+    "a11": [
+      "pose",
+      "gesture"
+    ],
+    "a12": [
+      "pose",
+      "gesture"
+    ],
+    "a13": [
+      "pose",
+      "gesture"
+    ],
+    "a14": [
+      "pose",
+      "gesture"
+    ],
+    "a15": [
+      "pose",
+      "gesture"
+    ],
+    "a16": [
+      "pose",
+      "gesture"
+    ],
+    "a17": [
+      "pose",
+      "gesture"
+    ],
+    "a18": [
+      "pose",
+      "gesture"
+    ],
+    "a19": [
+      "pose",
+      "gesture"
+    ],
+    "a20": [
+      "pose",
+      "gesture"
+    ],
+    "a21": [
+      "pose",
+      "gesture"
+    ],
+    "a22": [
+      "pose",
+      "gesture"
+    ],
+    "a23": [
+      "pose",
+      "gesture"
+    ],
+    "a24": [
+      "pose",
+      "gesture"
+    ],
+    "b1": [
+      "pose",
+      "object"
+    ],
+    "b2": [
+      "pose",
+      "object"
+    ],
+    "b3": [
+      "pose",
+      "object"
+    ],
+    "b4": [
+      "pose",
+      "object"
+    ],
+    "b5": [
+      "pose",
+      "object"
+    ],
+    "b6": [
+      "pose",
+      "object"
+    ],
+    "b7": [
+      "pose",
+      "object"
+    ],
+    "b8": [
+      "pose",
+      "object"
+    ],
+    "b9": [
+      "pose",
+      "object"
+    ],
+    "b10": [
+      "pose",
+      "object"
+    ],
+    "b11": [
+      "pose",
+      "object"
+    ],
+    "b12": [
+      "pose",
+      "object"
+    ],
+    "b13": [
+      "pose",
+      "object"
+    ],
+    "b14": [
+      "pose",
+      "object"
+    ],
+    "b15": [
+      "pose",
+      "object"
+    ],
+    "b16": [
+      "pose",
+      "object"
+    ],
+    "b17": [
+      "pose",
+      "object"
+    ],
+    "b18": [
+      "pose",
+      "object"
+    ],
+    "b19": [
+      "pose",
+      "object"
+    ],
+    "b20": [
+      "pose",
+      "object"
+    ],
+    "b21": [
+      "pose",
+      "object"
+    ],
+    "b22": [
+      "pose",
+      "object"
+    ],
+    "b23": [
+      "pose",
+      "object"
+    ],
+    "b24": [
+      "pose",
+      "object"
+    ]
+  },
+  "legal_masks": {
+    "ip-172-31-0-204": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-1-171": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-10-12": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-11-132": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-13-134": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-14-68": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    },
+    "ip-172-31-40-239": {
+      "1": {
+        "gesture": 113
+      },
+      "2": {
+        "pose": 84
+      },
+      "4": {
+        "object": 82
+      },
+      "3": {
+        "gesture": 101,
+        "pose": 69
+      },
+      "5": {
+        "gesture": 100,
+        "object": 68
+      },
+      "6": {
+        "pose": 69,
+        "object": 69
+      },
+      "7": {
+        "gesture": 91,
+        "pose": 59,
+        "object": 59
+      }
+    }
+  },
+  "f_l": {
+    "gesture": 10,
+    "pose": 10,
+    "object": 10
+  },
+  "f_h": {
+    "gesture": 30,
+    "pose": 30,
+    "object": 30
+  }
+}

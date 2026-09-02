@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-deployment
+  namespace: arha-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controller
+  template:
+    metadata:
+      labels:
+        app: controller
+    spec:
+      initContainers:
+        - name: init-config
+          image: hiro08081/controller_v2:42
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              for f in usc_ts_config.json serviceSpec_mul.json serviceSpec_mul_8node.json q_table.json controller_config.json; do
+                if [ ! -f /mnt/information/$f ]; then
+                  echo "Seeding $f from image..."
+                  cp /app/information/$f /mnt/information/
+                else
+                  echo "$f already exists in PVC, skipping."
+                fi
+              done
+          volumeMounts:
+            - name: information
+              mountPath: /mnt/information
+      containers:
+        - name: controller
+          image: hiro08081/controller_v2:45
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              apt update && apt install -y nano procps
+              sleep infinity
+          ports:
+            - name: controller
+              containerPort: 5000
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+            - name: logs-volume
+              mountPath: /app/logdir
+          env:
+            - name: OPTIMIZER_FUNCTION
+              value: "optimize"
+        
+      volumes:
+        - name: information
+          persistentVolumeClaim:
+            claimName: arha-system-information
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: arha-logs-pvc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: arha-node-type
+                operator: In
+                values:
+                - controller-node
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

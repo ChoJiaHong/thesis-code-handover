@@ -1,0 +1,155 @@
+實驗1:
+ga
+1./result_aws/ga_bf/s1_20260720_005509.csv
+2./result_aws/ga_bf/s1_20260720_010431.csv
+3./result_aws/ga_bf/s1_20260720_011414.csv
+ga_no
+
+2./result_aws/ga_bf/s1_20260720_003841.csv
+3./result_aws/ga_bf/s1_20260720_004643.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260721_180739.csv
+ems
+1./result_aws/ems/s1_20260720_012241.csv
+2./result_aws/ems/s1_20260720_013211.csv
+3./result_aws/ems/s1_20260720_014017.csv
+lsr
+1./result_aws/lsr/s1_20260720_015032.csv
+2./result_aws/lsr/s1_20260720_015906.csv
+3./result_aws/lsr/s1_20260720_020739.csv
+實驗2:
+ga:
+1./result_aws/ga_bf/s2_20260719_202827.csv
+2./result_aws/ga_bf/s2_20260719_211234.csv
+3./result_aws/ga_bf/s2_20260719_233354.csv
+ga_no
+1./result_aws/ga_bf/s2_20260719_201850.csv
+2./result_aws/ga_bf/s2_20260719_205148.csv
+3./result_aws/ga_bf/s2_20260719_232541.csv
+ems
+1./result_aws/ems/s2_20260719_195734.csv
+2./result_aws/ems/s2_20260719_225148.csv
+3./result_aws/ems/s2_20260719_230036.csv
+lsr
+1./result_aws/lsr/s2_20260719_200739.csv
+2./result_aws/lsr/s2_20260719_230832.csv
+
+實驗3:
+1./result_aws/ga_bf/s2_20260719_213106.csv
+2./result_aws/ga_bf/s2_20260719_215509.csv
+3./result_aws/ga_bf/s2_20260719_223822.csv
+ga_no
+1./result_aws/ga_bf/s2_20260721_183332.csv
+2./result_aws/ga_bf/s2_20260719_214918.csv
+3./result_aws/ga_bf/s2_20260719_224500.csv
+ems
+1./home/ubuntu/ha/Controller_v2/results/ems/s1_20260720_012241.csv
+
+2./result_aws/ems/s2_20260719_220951.csv
+3./result_aws/ems/s2_20260719_221507.csv
+lsr
+1./home/ubuntu/ha/Controller_v2/results/lsr/s1_20260720_015032.csv
+
+2./result_aws/lsr/s2_20260719_222721.csv
+
+
+--until=300 \
+
+實驗1
+1
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s1_20260720_005509.csv \
+  ga_bf_no:result_aws/unknown/s1_20260720_002829.csv \
+  ems:result_aws/ems/s1_20260720_012241.csv \
+  lsr:result_aws/lsr/s1_20260720_015032.csv \
+  --until=450 \
+  results/compare/s1_compare.png
+
+2
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s1_20260720_010431.csv \
+  ga_bf_no:result_aws/ga_bf/s1_20260720_003841.csv \
+  ems:result_aws/ems/s1_20260720_013211.csv \
+  lsr:result_aws/lsr/s1_20260720_015906.csv \
+  --until=450 \
+  results/compare/s1_compare.png
+
+3
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s1_20260720_011414.csv \
+  ga_bf_no:result_aws/ga_bf/s1_20260720_004643.csv \
+  ems:result_aws/ems/s1_20260720_014017.csv \
+  lsr:result_aws/lsr/s1_20260720_020739.csv \
+  --until=450 \
+  results/compare/s1_compare.png
+
+
+實驗2
+1
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_202827.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_201850.csv \
+  ems:result_aws/ems/s2_20260719_195734.csv \
+  lsr:result_aws/lsr/s2_20260719_200739.csv \
+    --until=390 \
+  results/compare/s2_compare.png
+
+2
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_211234.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_205148.csv \
+  ems:result_aws/ems/s2_20260719_225148.csv \
+  lsr:result_aws/lsr/s2_20260719_230832.csv \
+    --until=390 \
+  results/compare/s2_compare.png
+
+3
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_233354.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_232541.csv \
+  ems:result_aws/ems/s2_20260719_230036.csv \
+  lsr:result_aws/unknown/s2_20260719_231609.csv \
+    --until=390 \
+  results/compare/s2_compare.png
+
+
+實驗3
+1
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_213106.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_213828.csv \
+  ems:result_aws/ems/s2_20260719_220342.csv \
+  lsr:result_aws/lsr/s2_20260719_222029.csv \
+  --until=230 \
+  results/compare/s3_compare.png
+
+2
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_215509.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_214918.csv \
+  ems:result_aws/ems/s2_20260719_220951.csv \
+  lsr:result_aws/lsr/s2_20260719_222721.csv \
+  --until=230 \
+  results/compare/s3_compare.png
+3.
+python3 plot_compare.py \
+  ga_bf:result_aws/ga_bf/s2_20260719_223822.csv \
+  ga_bf_no:result_aws/ga_bf/s2_20260719_224500.csv \
+  ems:result_aws/ems/s2_20260719_221507.csv \
+  lsr:result_aws/unknown/s2_20260719_223154.csv \
+  --until=230 \
+  results/compare/s3_compare.png
+
+
+
+這是我的方法與lsr與ems的數據連結，每個方法下都有做三次實驗，有些只有兩次。
+/home/hiro/git_repo/ha/Controller_v2/檔案位置紀錄 _0720_LOCAL
+接下來使用
+/home/hiro/git_repo/ha/Controller_v2/plot_compare.py
+/home/hiro/git_repo/ha/Controller_v2/plot_trace.py
+繪圖。
+請幫我寫新的各小節（5-2-3/4/5），除了plot_compare的摺線圖外還要用plot_trace畫出的
+b) Effective FPS per Service
+(c) Average Latency per Service
+(d) Invalid FPS per Service
+(e) Service Deployment per Node
+說明為什麼他們的plot_compare畫出來的摺線圖呈現的理由，先討論

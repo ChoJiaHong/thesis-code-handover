@@ -1,0 +1,90 @@
+{
+    "nodeAliases": {
+        "ip-172-31-0-204":  "node-1",
+        "ip-172-31-1-171":   "node-2",
+        "ip-172-31-10-12":  "node-3",
+        "ip-172-31-11-132": "node-4",
+        "ip-172-31-13-134":  "node-5",
+        "ip-172-31-14-68": "node-6",
+        "ip-172-31-40-239": "node-7"
+    },
+    "services": {
+        "gesture": {
+            "frequencyLimit": [30, 10],
+            "gpuMemoryRequest": 1
+        },
+        "pose": {
+            "frequencyLimit": [30, 10],
+            "gpuMemoryRequest": 1
+        },
+        "object": {
+            "frequencyLimit": [30, 10],
+            "gpuMemoryRequest": 1
+        }
+    },
+    "workAbility": {
+        "ip-172-31-0-204": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-1-171": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-10-12": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-11-132": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-13-134": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-14-68": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        },
+        "ip-172-31-40-239": {
+            "gesture":             {"gesture": 113},
+            "pose":                {"pose": 84},
+            "object":              {"object": 82},
+            "gesture,pose":        {"gesture": 101, "pose": 69},
+            "gesture,object":      {"gesture": 100, "object": 68},
+            "pose,object":         {"pose": 69,     "object": 69},
+            "gesture,pose,object": {"gesture": 91,  "pose": 59, "object": 59}
+        }
+    }
+}

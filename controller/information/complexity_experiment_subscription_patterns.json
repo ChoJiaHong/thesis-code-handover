@@ -1,0 +1,8 @@
+{
+  "_comment": "5-2-7節複雜度實驗專用之訂閱組合定義，僅供 complexity_experiment_4_3_5.py 讀取。獨立於 user_profiles.json（後者會被其他測試用途修改，內容不穩定），確保這裡的三組兩兩配對組合固定、乾淨，不受外部影響。",
+  "users": {
+    "e1": ["gesture", "object"],
+    "a1": ["pose", "gesture"],
+    "b1": ["pose", "object"]
+  }
+}

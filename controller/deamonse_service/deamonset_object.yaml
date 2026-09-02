@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: prewarm-object-workers-only
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: prewarm-object-workers
+  template:
+    metadata:
+      labels:
+        app: prewarm-object-workers
+    spec:
+      # 1. 排除 Master / Control-plane 節點
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: node-role.kubernetes.io/master
+                operator: DoesNotExist
+
+      # 2. 容忍度（允許跑在有 GPU 污點的 Worker 上）
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      - operator: Exists
+        effect: NoExecute
+
+      # 3. 初始化容器：拉取指定 Image
+      initContainers:
+      - name: image-puller
+        image: hiro08081/infer_server:9
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c", "echo 'Object server image pulled successfully!'"]
+        resources:
+          limits:
+            cpu: "10m"
+            memory: "16Mi"
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
+
+      # 4. 主容器：輕量 alpine 駐守
+      containers:
+      - name: alpine-holder
+        image: alpine:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c", "echo 'Holding the object cache...'; while true; do sleep 3600; done"]
+        resources:
+          limits:
+            cpu: "10m"
+            memory: "16Mi"
+          requests:
+            cpu: "10m"
+            memory: "16Mi"

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-deployment
+  namespace: arha-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controller
+  template:
+    metadata:
+      labels:
+        app: controller
+    spec:
+      containers:
+        - name: controller
+          image: harbor.pdc.tw/yuchiehpaper/controller:latest
+          command: ["sleep", "infinity"]
+          ports:
+            - name: controller
+              containerPort: 5000
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+            - name: logs-volume
+              mountPath: /app/logdir
+          env:
+            - name: OPTIMIZER_FUNCTION
+              value: "optimize"
+        - name: result
+          image: harbor.pdc.tw/arha/result:latest
+          ports:
+            - name: result
+              containerPort: 5001
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+        - name: crd-syncer
+          image: hiro08081/crd-syncer:2
+          command: ["sleep", "infinity"]
+          env:
+            - name: FILE_MAP
+              value: |
+                /app/information/service.json=services:service-info
+                /app/information/serviceSpec.json=servicespecs:servicespec-info
+                /app/information/subscription.json=subscriptions:subscription-info
+                /app/information/nodestatus.json=nodestatuses:nodestatus-info
+            - name: CRD_GROUP
+              value: ha.example.com
+            - name: CRD_VERSION
+              value: v1
+            - name: NAMESPACE
+              value: arha-system
+            - name: IN_CLUSTER
+              value: "true"
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+      volumes:   # 這裡開始要注意
+        - name: information
+          persistentVolumeClaim:
+            claimName: arha-system-information
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: arha-logs-pvc
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: arha-node-type
+                operator: In
+                values:
+                - controller-node
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

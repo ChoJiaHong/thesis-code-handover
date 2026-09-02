@@ -1,0 +1,83 @@
+{
+    "services": {
+        "gesture": {
+            "frequencyLimit": [
+                30,
+                12
+            ],
+            "gpuMemoryRequest": 1
+        },
+        "pose": {
+            "frequencyLimit": [
+                30,
+                12
+            ],
+            "gpuMemoryRequest": 1
+        },
+        "object": {
+            "frequencyLimit": [
+                30,
+                12
+            ],
+            "gpuMemoryRequest": 1
+        }
+    },
+    "workAbility": {
+        "workgpu": {
+            "gesture": {
+                "gesture": 113
+            },
+            "pose": {
+                "pose": 90
+            },
+            "object": {
+                "object": 83
+            },
+            "gesture,pose": {
+                "gesture": 101,
+                "pose": 69
+            },
+            "gesture,object": {
+                "gesture": 98,
+                "object": 66
+            },
+            "pose,object": {
+                "pose": 71,
+                "object": 71
+            },
+            "gesture,pose,object": {
+                "gesture": 88,
+                "pose": 55,
+                "object": 55
+            }
+        },
+        "pdclab": {
+            "gesture": {
+                "gesture": 183
+            },
+            "pose": {
+                "pose": 130
+            },
+            "object": {
+                "object": 129
+            },
+            "gesture,pose": {
+                "gesture": 137,
+                "pose": 86
+            },
+            "gesture,object": {
+                "gesture": 138,
+                "object": 84
+            },
+            "pose,object": {
+                "pose": 87,
+                "object": 87
+            },
+            "gesture,pose,object": {
+                "gesture": 122,
+                "pose": 61,
+                "object": 60
+            }
+        }
+    }
+}

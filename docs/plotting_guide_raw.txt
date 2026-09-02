@@ -1,0 +1,254 @@
+# 繪圖操作指南
+
+工作目錄：`ha/Controller_v2/`
+
+---
+
+## 腳本總覽
+
+| 腳本 | 用途 | 輸出格式 |
+|------|------|----------|
+| `plot_trace.py` | 單次實驗完整 5-panel 時序圖 | PDF / PNG |
+| `plot_experiment.py` | 單次實驗 8-panel 詳細指標圖 | PNG |
+| `plot_compare.py` | 多 solver 比較圖（3-panel） | PDF / PNG |
+
+---
+
+## 1. `plot_trace.py`：單次實驗 Trace 圖
+
+**最常用**，論文用圖。5 個面板：
+
+| Panel | 內容 |
+|-------|------|
+| (a) | Users、N_sat、滿足率 |
+| (b) | 各服務 Effective FPS（含 f_l 參考線） |
+| (c) | 各服務平均延遲（超 2000ms 截斷） |
+| (d) | 各服務 Invalid FPS（real − effective） |
+| (e) | 各節點服務部署 Gantt 圖 |
+
+**使用方式：**
+
+```bash
+# 基本用法（輸出同目錄，自動命名，預設 PDF）
+python3 plot_trace.py results/ga/s1_20260527_213320.csv
+
+# 輸出 PNG（副檔名決定格式）
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_182707.csv output/s2_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ems/s2_20260718_144241.csv output/s2_ems_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_183332.csv output/s3_lsr_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_184204.csv output/s3_ga_no_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_185956.csv output/s3_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_192616.csv output/s3_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_193747.csv output/s3_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_194901.csv output/s3_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_200100.csv output/s3_ga_trace.png
+python3 plot_trace.py  /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_203355.csv output/s3_ga_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/lsr/s2_20260721_214938.csv output/s3_lsr_trace.png
+python3 plot_trace.py  /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_213143.csv output/s3_ga_trace.png
+python3 plot_trace.py  /home/ubuntu/ha/Controller_v2/results/ems/s2_20260721_215459.csv output/s3_ems_trace.png
+
+python3 plot_trace.py  /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_213143.csv output/s3_ga_trace.png
+
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_213646.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_213143.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260721_211111.csv
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ems/s1_20260719_193945.csv output/s1_ems_trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ems/s1_20260719_194651.csv output/s1_ems_trace.png
+實驗1:
+ga
+1./home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260720_005509.csv
+2./home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260720_010431.csv
+3./home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260720_011414.csv
+ga_no
+1. /home/ubuntu/ha/Controller_v2/results/unknown/s1_20260720_002829.csv
+2. /home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260720_003841.csv
+3./home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260720_004643.csv
+ems
+1./home/ubuntu/ha/Controller_v2/results/ems/s1_20260720_012241.csv
+2./home/ubuntu/ha/Controller_v2/results/ems/s1_20260720_013211.csv
+3./home/ubuntu/ha/Controller_v2/results/ems/s1_20260720_014017.csv
+lsr
+1./home/ubuntu/ha/Controller_v2/results/lsr/s1_20260720_015032.csv
+2./home/ubuntu/ha/Controller_v2/results/lsr/s1_20260720_015906.csv
+3./home/ubuntu/ha/Controller_v2/results/lsr/s1_20260720_020739.csv
+實驗2:
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_195734.csv output/s2_ems_trace.png
+
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/lsr/s2_20260719_200739.csv output/s2_lsr_trace.png
+
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_201850.csv output/s2_ga_qany_no1trace.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_205148.csv output/s2_ga_qany_no1trace.png
+
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_202827.csv output/s2_ga_qany.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_211234.csv output/s2_ga_qany.png
+ga:
+1./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_202827.csv
+2./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_211234.csv
+3./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_233354.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s1_20260721_210126.csv
+ga_no
+1./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_201850.csv
+2./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_205148.csv
+3./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_232541.csv
+ems
+1./home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_195734.csv
+2./home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_225148.csv
+3./home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_230036.csv
+lsr
+1./home/ubuntu/ha/Controller_v2/results/lsr/s2_20260719_200739.csv
+2./home/ubuntu/ha/Controller_v2/results/lsr/s2_20260719_230832.csv
+3./home/ubuntu/ha/Controller_v2/results/unknown/s2_20260719_231609.csv
+實驗3:
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_213106.csv output/s3_ga_qany1.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_215509.csv output/s3_ga_qany2.png
+ /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_223822.csv
+
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_213828.csv output/s3_ga_qany_no1.png
+python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_214918.csv output/s3_ga_qany_no2.png
+ga
+1./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_213106.csv
+2./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_215509.csv
+3./home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_223822.csv
+ga_no
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_213828.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_214918.csv
+/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_224500.csv
+ems
+1./home/ubuntu/ha/Controller_v2/results/ems/s2_20260721_215459.csv
+2./home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_220951.csv
+3./home/ubuntu/ha/Controller_v2/results/ems/s2_20260719_221507.csv
+lsr
+1./home/ubuntu/ha/Controller_v2/results/lsr/s2_20260721_214938.csv
+2./home/ubuntu/ha/Controller_v2/results/lsr/s2_20260719_222721.csv
+3./home/ubuntu/ha/Controller_v2/results/unknown/s2_20260719_223154.csv
+python3 plot_compare.py \
+  ga_qany:/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_202827.csv \
+  ga_qany_no1:/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_201850.csv \
+  ga_qany2:/home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260719_211234.csv \
+  --until=385 \
+  results/compare/s2_compare.png
+
+
+python3 plot_compare.py \
+  ga_qany:result_aws/ga_bf/s1_20260721_210126.csv \
+  ga_qany_no:result_aws/ga_bf/s1_20260721_211111.csv \
+  --until=450 \
+  results/compare/s1_compare.png
+
+
+
+# 輸出 PDF
+python3 plot_trace.py results/ga/s1_20260527_213320.csv output/s1_ga_trace.pdf
+
+# 批次產生所有 CSV 的 PNG trace 圖
+for f in results/ga/*.csv; do
+    out="${f%.csv}_trace.png"
+    python3 plot_trace.py "$f" "$out"
+done
+```
+
+**輸出命名規則：** `{CSV 檔名去副檔名}_trace.pdf`（預設）；指定輸出路徑時副檔名即為格式。
+
+**Panel (e) 注意：** 若 `node_topology` 欄位全為 `{}`，面板會顯示 "data not available"。這是正常現象（service.json 更新時間差），不代表服務沒有運行。
+
+---
+
+## 2. `plot_experiment.py`：8-panel 詳細指標圖
+
+除 Trace 圖外的補充視圖，包含 Pod 數量、容量使用率等系統指標。
+
+**8 個面板：**
+
+| Panel | 內容 |
+|-------|------|
+| 1 | Users vs N_sat |
+| 2 | Satisfaction Rate |
+| 3 | Real FPS（各服務） |
+| 4 | Effective FPS（各服務） |
+| 5 | 平均延遲（各服務） |
+| 6 | 整體平均回應時間 |
+| 7 | Pod 數量變化 |
+| 8 | 累計 Pod 變更次數 + 容量使用率 |
+
+**使用方式：**
+
+```bash
+# 預設輸出 PNG
+python3 plot_experiment.py results/ga_bf/s1_20260527_230620.csv
+```
+
+**輸出：** `{CSV 檔名去副檔名}_plot.png`（固定 PNG，無法透過參數更改）
+
+---
+
+## 3. `plot_compare.py`：多 Solver 比較圖
+
+用於論文中比較不同演算法。3 個面板：
+
+| Panel | 內容 |
+|-------|------|
+| (a) | sat_rate vs n_users（散點，各 solver 一條線） |
+| (b) | N_sat 時序（smoothed） |
+| (c) | Pose 延遲時序（smoothed，截斷 2000ms） |
+
+**使用方式：**
+
+```bash
+# 輸出 PDF
+python3 plot_compare.py \
+    ga:results/ga/s1_20260527_213320.csv \
+    ems:results/ems/s1_xxx.csv \
+    lsr:results/lsr/s1_xxx.csv \
+    comparison_s1.pdf
+
+# 輸出 PNG（改副檔名即可）
+python3 plot_compare.py \
+    ga:results/ga/s1_20260527_213320.csv \
+    ems:results/ems/s1_xxx.csv \
+    lsr:results/lsr/s1_xxx.csv \
+    comparison_s1.png
+
+# 兩個 solver 比較（不指定輸出，自動命名）
+python3 plot_compare.py \
+    ga:results/ga/s1_20260527_213320.csv \
+    ems:results/ems/s1_xxx.csv
+```
+
+**輸出：** 指定的檔名（副檔名決定格式），或自動命名為 `comparison.pdf`
+
+---
+
+## 快速範例：對目前最新 CSV 畫圖
+
+```bash
+cd /home/hiro/git_repo/ha/Controller_v2
+
+# Trace 圖（PNG）
+python3 plot_trace.py results/ga/s1_20260527_213320.csv results/ga/s1_20260527_213320_trace.png
+
+# 詳細指標圖（固定輸出 PNG）
+python3 plot_experiment.py results/ga/s1_20260527_213320.csv
+```
+
+---
+
+## 查看輸出圖片
+
+```bash
+# PNG（本機或有 GUI 的伺服器）
+eog results/ga/s1_20260527_213320_trace.png
+
+# 無 GUI 伺服器 → scp 下載到本機後開啟
+scp user@server:/home/hiro/git_repo/ha/Controller_v2/results/ga/s1_20260527_213320_trace.png ~/Desktop/
+```
+
+---
+
+## 常見問題
+
+| 問題 | 原因 | 解法 |
+|------|------|------|
+| `KeyError: 'node_topology'` | 舊版 CSV 沒有此欄位 | Panel (e) 會自動顯示提示訊息，不影響其他 panel |
+| Panel (e) 全為空白 | `node_topology={}` 在所有時間點 | 正常現象，service.json 與 pod 實際狀態有時間差 |
+| 圖片無法開啟 | 在無 GUI 的伺服器上執行 | 用 `scp` 把 PDF/PNG 下載到本機查看 |
+| 延遲圖線條被截斷 | 超過 2000ms 閾值（`LAT_CAP=2000`） | 修改 `plot_trace.py` 第 111 行的 `LAT_CAP` 值 |
