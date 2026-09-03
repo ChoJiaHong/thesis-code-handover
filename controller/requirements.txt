@@ -1,0 +1,13 @@
+# 未經與原始部署image逐一版本核對，僅依實際import列出必要套件；
+# 如需與controller_v2:45 image完全一致之凍結版本，需另行查證。
+fastapi
+uvicorn
+pydantic
+kubernetes
+requests
+pyyaml
+
+# MINLP精確解 baseline（minlp_solver.py，solver_mode切至minlp時動態載入）
+# 版本與 experiments/minlp/requirements.txt 一致，已實際驗證可運作
+pyomo==6.9.5
+highspy==1.12.0

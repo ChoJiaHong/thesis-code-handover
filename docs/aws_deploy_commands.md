@@ -95,27 +95,3 @@ kubectl label nodes <NODE_NAME>        arha-node-type=computing-node
 # ...依實際節點數量重複
 ```
 
-## 8. Containerd / NVIDIA Runtime 設定（GPU 節點必要步驟）
-
-```bash
-# 1. 備份舊設定
-sudo mv /etc/containerd/config.toml /etc/containerd/config.toml.old
-
-# 2. 產生 containerd 官方預設設定
-sudo sh -c "containerd config default > /etc/containerd/config.toml"
-
-# 3. 修正 K8s 所需的 Cgroup 設定
-sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
-
-# 4. 重新套用 NVIDIA runtime 設定
-sudo nvidia-ctk runtime configure --runtime=containerd
-
-# 5. 重啟 containerd
-sudo systemctl restart containerd
-
-# 若 nvidia-ctk 解析設定檔出錯，可強制降版後重新設定：
-sudo sed -i 's/^version =.*/version = 2/' /etc/containerd/config.toml
-sudo nvidia-ctk runtime configure --runtime=containerd
-grep "nvidia" /etc/containerd/config.toml
-sudo systemctl restart containerd
-```

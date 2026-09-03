@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: pose-podmonitor
+  labels:
+    release: prometheus  # 要跟你的 Prometheus instance 用的 release label 一樣
+spec:
+  selector:
+    matchLabels:
+      app: infer
+  podMetricsEndpoints:
+  - port: metrics         # 要和上面 Pod 裡的 containerPort name 一致
+    path: /metrics
+    interval: 1s

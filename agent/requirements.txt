@@ -1,0 +1,8 @@
+# 未經與原始部署image逐一版本核對，僅依實際import列出必要套件；
+# 如需與部署image完全一致之凍結版本，需另行查證。
+fastapi
+uvicorn
+requests
+websockets
+grpcio
+protobuf

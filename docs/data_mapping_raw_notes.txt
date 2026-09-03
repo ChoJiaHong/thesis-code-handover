@@ -139,17 +139,3 @@ python3 plot_compare.py \
   --until=230 \
   results/compare/s3_compare.png
 
-
-
-這是我的方法與lsr與ems的數據連結，每個方法下都有做三次實驗，有些只有兩次。
-/home/hiro/git_repo/ha/Controller_v2/檔案位置紀錄 _0720_LOCAL
-接下來使用
-/home/hiro/git_repo/ha/Controller_v2/plot_compare.py
-/home/hiro/git_repo/ha/Controller_v2/plot_trace.py
-繪圖。
-請幫我寫新的各小節（5-2-3/4/5），除了plot_compare的摺線圖外還要用plot_trace畫出的
-b) Effective FPS per Service
-(c) Average Latency per Service
-(d) Invalid FPS per Service
-(e) Service Deployment per Node
-說明為什麼他們的plot_compare畫出來的摺線圖呈現的理由，先討論

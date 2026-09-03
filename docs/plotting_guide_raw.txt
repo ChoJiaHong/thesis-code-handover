@@ -32,7 +32,15 @@
 # 基本用法（輸出同目錄，自動命名，預設 PDF）
 python3 plot_trace.py results/ga/s1_20260527_213320.csv
 
-# 輸出 PNG（副檔名決定格式）
+# 輸出 PNG（副檔名決定格式）s3
+hud
+/home/ubuntu/ha/Controller_v2/results/hudson/s2_20260902_105909.csv
+/home/ubuntu/ha/Controller_v2/results/hudson/s2_20260902_110352.csv
+/home/ubuntu/ha/Controller_v2/results/hudson/s2_20260902_110812.cs
+lai
+/home/hiro/git_repo/ha/Controller_v2/result_aws/lai_eua/s2_20260902_103626.csv
+/home/ubuntu/ha/Controller_v2/results/lai_eua/s2_20260902_104835.csv
+/home/ubuntu/ha/Controller_v2/results/lai_eua/s2_20260902_105357.csv
 python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_182707.csv output/s2_ga_trace.png
 python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ems/s2_20260718_144241.csv output/s2_ems_trace.png
 python3 plot_trace.py /home/ubuntu/ha/Controller_v2/results/ga_bf/s2_20260721_183332.csv output/s3_lsr_trace.png

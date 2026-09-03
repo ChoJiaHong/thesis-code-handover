@@ -20,10 +20,27 @@
 實際運行時各元件之容器映像檔版本：`controller_v2:45`、`agentmanager_refact:12`、
 `monitor_mul:2`、`infer_server:9`（gesture/pose/object 共用）。
 
+**每個元件目錄下皆有一份`操作手冊.md`**，詳細記錄該元件之啟動方式、CLI參數、設定檔、
+埠號與依賴關係：[`infra/`](infra/操作手冊.md)（叢集建置，需最先完成）、
+[`controller/`](controller/操作手冊.md)、
+[`agentmanager/`](agentmanager/操作手冊.md)、[`agent/`](agent/操作手冊.md)、
+[`monitor/`](monitor/操作手冊.md)、[`infer_server/`](infer_server/操作手冊.md)、
+[`ar_emulator/`](ar_emulator/操作手冊.md)、[`experiments/`](experiments/操作手冊.md)、
+[`plotting/`](plotting/操作手冊.md)。
+
+## ⚠️ 待你確認的問題（彙整自各元件操作手冊）
+
+1. **controller**：`controller-deployment.yaml`裡的`crd-syncer`與`result`兩個容器功能不明，未包含原始碼，是否需要／可忽略？
+2. **monitor**：程式碼定義了`SERVICESPEC_FILE`常數指向`serviceSpec_mul.json`，但未追到實際讀取處，是否需要掛載此檔案給Monitor？
+3. **infer_server**：`vision/`第三方SSD函式庫之上游來源連結為何？
+4. **experiments**：論文「實驗二：高負載情境」與「實驗三：節點故障情境」之CSV檔名前綴皆為`s2_`而非分別對應`--scenario 2/3`，判斷節點故障是透過手動iptables（而非腳本內建`--fail-node`邏輯）產生，此判斷未100%確認，需要你說明實際作法。
+5. **infra**：`values.yaml`裡Alertmanager設定了webhook指向Monitor的`/alert`端點，但Monitor程式碼裡未見對外開放此端點接收請求，這條設定是仍在使用的機制還是殘留設定？
+
 ## 目錄結構
 
 ```
-controller/       系統核心：GA求解器、EMS/LSR baseline、部署yaml、種子設定
+infra/            Kubernetes叢集建置、GPU Time-Slicing、Prometheus監控等基礎設施腳本
+controller/       系統核心：GA求解器、EMS/LSR/MINLP baseline、部署yaml、種子設定
 agentmanager/     AgentManager 程式與部署yaml
 agent/            使用者端 Agent 程式與 gRPC proto stub
 monitor/          Monitor 程式與部署yaml
@@ -55,7 +72,8 @@ docs/             部署指令、資料來源對照等說明文件
 ## 已知限制與說明
 
 1. **object 推論服務並無獨立模型程式碼**：實驗設計上，"object" 服務直接沿用 pose
-   model（`infer_server/service/pose_service.py`），在實驗中僅被視為一個獨立的邏輯服務
+   model（`infer_server/service/pose_service_no_batch.py`，已由部署yaml之
+   `SERVICE: "pose"`環境變數證實），在實驗中僅被視為一個獨立的邏輯服務
    （已於論文口試前告知指導教授），並非程式碼缺漏。
 2. **`infer_server/` 未包含第三方物件偵測函式庫 `vision/`**：`gesture_service.py`
    背後依賴之 SSD 偵測模型架構取自開源 pytorch-ssd 相關實作，未隨本 repo一併提供，
@@ -70,5 +88,15 @@ docs/             部署指令、資料來源對照等說明文件
 4. **`controller/information/` 僅保留系統啟動所需之種子設定**（`serviceSpec_mul.json`、
    `usc_ts_config.json`、`q_table.json`等），執行期間才會產生/更新的狀態檔
    （節點狀態、訂閱狀態等）未包含，需視實際部署環境重新產生。
-5. **`data/` 僅收錄與論文最終圖表直接對應的12份CSV**，原始AWS實驗過程中產生的數百份
-   探索性/中間版本CSV未納入，如需完整實驗歷程請另行取得 `result_aws/` 原始資料。
+5. **`data/` 收錄與論文最終圖表對應之CSV**（實驗一、二各方法2~3次重跑；實驗三因論文採單次
+   代表性數據〔非跨重跑平均〕，各方法僅收錄該單一對應版本，詳見
+   `docs/data_provenance.md`），原始AWS實驗過程中產生的數百份探索性/未採用baseline
+   之CSV未納入，如需完整實驗歷程請另行取得 `result_aws/` 原始資料。
+6. **`controller/minlp_solver.py`**：`controller_v2.py`執行期若切換至MINLP精確解
+   solver_mode會動態import此檔案，需另外安裝pyomo/highs；與`experiments/minlp/`
+   （供離線複雜度驗證用）同源但為獨立維護的兩份程式碼。
+7. **`controller/hudson_solver.py`、`controller/lai_eua_solver.py`**：Baseline
+   4（Hudson等人之QoS-aware Edge AI Placement and Scheduling移植）與Baseline
+   5（Lai等人之向量裝箱式EUA移植），為`論文_全文_延伸版.tex`（新增兩基準之延伸版論文，
+   與本交接包對應之正式版論文分屬不同文件）比較之對象；正式版論文僅比較EMS、LSR，
+   `data/`目錄之實驗CSV亦僅涵蓋此二者，未包含Hudson/Lai-EUA之實驗數據。
