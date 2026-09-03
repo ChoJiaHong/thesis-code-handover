@@ -69,8 +69,8 @@ docs/             部署指令、資料來源對照等說明文件
    （已於論文口試前告知指導教授），並非程式碼缺漏。
 2. **`infer_server/` 未包含第三方物件偵測函式庫 `vision/`**：`gesture_service.py`
    背後依賴之 SSD 偵測模型架構取自開源 pytorch-ssd 相關實作，未隨本 repo一併提供，
-   使用前需自行取得該函式庫原始碼並放置於 `infer_server/vision/`。
-   <!-- TODO: 補上實際的上游來源連結 -->
+   上游來源連結亦不提供，使用前需自行尋找相容之pytorch-ssd實作原始碼並放置於
+   `infer_server/vision/`。
 3. **`experiments/complexity_experiment_4_3_5.py`（對應論文5-2-7節GA vs精確解比較）**
    依賴 `experiments/minlp/`（`model.py`／`run.py`／`params.py`／`config.py`，已一併包含，
    從原本7.9GB的獨立`minlp/`專案中僅抽取此腳本實際用到的4個檔案，其餘如PPO/Lagrangian/
