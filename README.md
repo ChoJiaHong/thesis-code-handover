@@ -28,14 +28,6 @@
 [`ar_emulator/`](ar_emulator/操作手冊.md)、[`experiments/`](experiments/操作手冊.md)、
 [`plotting/`](plotting/操作手冊.md)。
 
-## ⚠️ 待你確認的問題（彙整自各元件操作手冊）
-
-1. **controller**：`controller-deployment.yaml`裡的`crd-syncer`與`result`兩個容器功能不明，未包含原始碼，是否需要／可忽略？
-2. **monitor**：程式碼定義了`SERVICESPEC_FILE`常數指向`serviceSpec_mul.json`，但未追到實際讀取處，是否需要掛載此檔案給Monitor？
-3. **infer_server**：`vision/`第三方SSD函式庫之上游來源連結為何？
-4. **experiments**：論文「實驗二：高負載情境」與「實驗三：節點故障情境」之CSV檔名前綴皆為`s2_`而非分別對應`--scenario 2/3`，判斷節點故障是透過手動iptables（而非腳本內建`--fail-node`邏輯）產生，此判斷未100%確認，需要你說明實際作法。
-5. **infra**：`values.yaml`裡Alertmanager設定了webhook指向Monitor的`/alert`端點，但Monitor程式碼裡未見對外開放此端點接收請求，這條設定是仍在使用的機制還是殘留設定？
-
 ## 目錄結構
 
 ```
