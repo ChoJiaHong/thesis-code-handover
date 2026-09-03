@@ -26,6 +26,7 @@
 
 ```bash
 cd plotting
+export PYTHONPATH=../experiments
 python3 plot_compare.py \
   ga_bf:../data/exp1_動態日常_fig5/ga_bf/s1_20260720_010431.csv \
   ems:../data/exp1_動態日常_fig5/ems/s1_20260720_013211.csv \
@@ -40,6 +41,7 @@ python3 plot_compare.py \
 
 ```bash
 cd plotting
+export PYTHONPATH=../experiments
 python3 plot_compare.py \
   ga_bf:../data/exp3_節點故障_fig7/ga_bf/s2_20260721_213143.csv \
   ems:../data/exp3_節點故障_fig7/ems/s2_20260721_215459.csv \
@@ -57,7 +59,7 @@ python3 plot_compare.py \
 FPS／節點部署 Gantt 圖：
 
 ```bash
-python3 plotting/plot_trace.py data/exp1_動態日常_fig5/ga_bf/s1_20260720_010431.csv output/fig5b_reproduced.png
+PYTHONPATH=experiments python3 plotting/plot_trace.py data/exp1_動態日常_fig5/ga_bf/s1_20260720_010431.csv output/fig5b_reproduced.png
 ```
 
 ## 消融實驗（過渡期SLA維持機制，對應論文5-2-6節、圖 fig_ablation1/2）
@@ -68,9 +70,9 @@ python3 plotting/plot_trace.py data/exp1_動態日常_fig5/ga_bf/s1_20260720_010
 | `data/ablation2_高負載消融/` | fig_ablation2 | 5-2-6-2（與`exp2_高負載_fig6/ga_bf`／`ga_bf_no`之第一次重跑為同一份資料，此處另存一份方便單獨取用）|
 
 ```bash
-python3 plotting/plot_compare.py \
-  ga_bf:../data/ablation1_動態日常消融/有過渡期機制_s1_20260721_210126.csv \
-  ga_bf_no:../data/ablation1_動態日常消融/無過渡期機制_s1_20260721_211111.csv \
+PYTHONPATH=experiments python3 plotting/plot_compare.py \
+  ga_bf:data/ablation1_動態日常消融/有過渡期機制_s1_20260721_210126.csv \
+  ga_bf_no:data/ablation1_動態日常消融/無過渡期機制_s1_20260721_211111.csv \
   --until=450 \
   fig_ablation1_reproduced.png
 ```
