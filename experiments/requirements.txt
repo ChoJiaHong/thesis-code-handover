@@ -1,0 +1,11 @@
+# 未經與原始執行環境逐一版本核對，僅依實際import列出必要套件；
+# 如需與原始環境完全一致之凍結版本，需另行查證。
+requests
+websockets
+Pillow
+
+# bench_workability.py 直接以gRPC對推論服務壓測，需要與experiments/下
+# gesture_pb2*.py／pose_pb2*.py（由agent/複製而來，見操作手冊.md）相容之版本，
+# 已知至少需 grpcio>=1.71.0（低於此版本import時會丟RuntimeError）
+grpcio>=1.71.0
+protobuf
