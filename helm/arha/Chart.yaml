@@ -7,6 +7,26 @@ description: >
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
+home: https://github.com/ChoJiaHong/thesis-code-handover
+sources:
+  - https://github.com/ChoJiaHong/thesis-code-handover
+keywords:
+  - edge-computing
+  - mec
+  - kubernetes
+  - gpu-sharing
+maintainers:
+  - name: ChoJiaHong
+    email: hiro08081@gmail.com
+    url: https://github.com/ChoJiaHong
+annotations:
+  # Artifact Hub會用這個欄位在網頁上顯示每版變更摘要
+  artifacthub.io/changes: |
+    - kind: added
+      description: 初版：controller/agentmanager/monitor三個subchart
+  # TODO：repo目前沒有LICENSE檔案，Artifact Hub會警示「缺少授權條款」。
+  # 決定授權方式後，補一個LICENSE檔到repo根目錄，並在這裡加回
+  # artifacthub.io/license: <SPDX代碼>（例如MIT、Apache-2.0）
 
 dependencies:
   - name: controller
