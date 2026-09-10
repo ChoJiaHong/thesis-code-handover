@@ -1,0 +1,18 @@
+Controller 已部署至 namespace「{{ include "controller.namespace" . }}」。
+
+{{- if .Values.sleepMode }}
+sleepMode=true：容器目前只是sleep infinity，尚未真的在跑controller_v2.py。
+接下來要：
+  1. kubectl cp <程式碼目錄>/. <pod>:/app -n {{ include "controller.namespace" . }}
+  2. kubectl exec -it <pod> -n {{ include "controller.namespace" . }} -- \
+       uvicorn controller_v2:app --host 0.0.0.0 --port 5000
+（見 controller/操作手冊.md）
+{{- else }}
+sleepMode=false：image已內建程式碼並於啟動時自動執行uvicorn，無需手動介入。
+{{- end }}
+
+檢查Pod狀態：
+  kubectl get pods -n {{ include "controller.namespace" . }} -l app=controller
+
+查詢對外NodePort：
+  kubectl get svc controller-service -n {{ include "controller.namespace" . }}

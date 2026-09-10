@@ -1,0 +1,6 @@
+apiVersion: v2
+name: agentmanager
+description: 接收使用者訂閱請求，建立對應Agent容器
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

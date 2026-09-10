@@ -1,0 +1,13 @@
+AgentManager 已部署至 namespace「{{ include "agentmanager.namespace" . }}」。
+
+{{- if eq .Values.agentHost.password "CHANGE_ME" }}
+
+⚠️ 警告：agentHost.password 目前還是預設值 CHANGE_ME，AgentManager會用這組
+  假帳密去SSH連線失敗。安裝前務必用自己的values檔覆蓋，見README.md。
+{{- end }}
+
+檢查Pod狀態：
+  kubectl get pods -n {{ include "agentmanager.namespace" . }} -l app=agentmanager
+確認Secret內容是否正確（會印出base64，需自行解碼）：
+  kubectl get secret {{ include "agentmanager.fullname" . }}-agenthost \
+    -n {{ include "agentmanager.namespace" . }} -o yaml

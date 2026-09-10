@@ -1,0 +1,22 @@
+global:
+  namespace: arha-system
+  nodeSelectorLabel:
+    key: arha-node-type
+    value: controller-node
+  pvc:
+    information: arha-system-information
+    logs: arha-logs-pvc
+
+image:
+  repository: hiro08081/monitor_mul
+  tag: "2"
+  pullPolicy: Always
+
+replicaCount: 1
+
+service:
+  port: 80
+  targetPort: 5000
+  nodePort: 30005
+
+resources: {}

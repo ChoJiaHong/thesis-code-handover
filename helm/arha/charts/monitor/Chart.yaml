@@ -1,0 +1,6 @@
+apiVersion: v2
+name: monitor
+description: 監控各運算節點健康狀態，故障/恢復事件通知Controller
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

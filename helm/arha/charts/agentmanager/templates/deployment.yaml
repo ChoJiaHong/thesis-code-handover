@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "agentmanager.fullname" . }}
+  namespace: {{ include "agentmanager.namespace" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: agentmanager
+  template:
+    metadata:
+      labels:
+        {{- include "agentmanager.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: agentmanager
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.httpPort }}
+            - name: websocket
+              containerPort: {{ .Values.service.websocketPort }}
+          # AgentManager_websocket_refact.py只吃sys.argv位置參數、不讀環境變數，
+          # 所以沒辦法直接用secretKeyRef把Secret掛成程式看得懂的輸入；改用
+          # sh -c 包一層，讓shell先把env var（下面env區塊，來自Secret）代換進
+          # 命令列字串，這是「舊程式只吃CLI參數、但密碼要放Secret」時的標準
+          # 解法，比直接把密碼寫死在command/args裡（原始yaml的作法）安全。
+          command: ["sh", "-c"]
+          args:
+            - >-
+              python3 AgentManager_websocket_refact.py
+              {{ .Values.agentHost.count }}
+              "$(AGENT_HOST_IP)" "$(AGENT_HOST_ACCOUNT)" "$(AGENT_HOST_PASSWORD)"
+          env:
+            - name: AGENT_HOST_IP
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agentmanager.fullname" . }}-agenthost
+                  key: ip
+            - name: AGENT_HOST_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agentmanager.fullname" . }}-agenthost
+                  key: account
+            - name: AGENT_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "agentmanager.fullname" . }}-agenthost
+                  key: password
+          volumeMounts:
+            - name: logs-volume
+              mountPath: /app/logs
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.global.pvc.logs }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ .Values.global.nodeSelectorLabel.key }}
+                operator: In
+                values:
+                - {{ .Values.global.nodeSelectorLabel.value }}
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

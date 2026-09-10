@@ -1,0 +1,5 @@
+# 跟`.gitignore`概念一樣，`helm package`打包時會忽略這些檔案/目錄
+.git/
+.gitignore
+*.tgz
+.vscode/

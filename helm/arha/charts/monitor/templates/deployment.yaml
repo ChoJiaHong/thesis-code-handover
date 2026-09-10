@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "monitor.fullname" . }}
+  namespace: {{ include "monitor.namespace" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: monitor
+  template:
+    metadata:
+      labels:
+        {{- include "monitor.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: monitor
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+            - name: logs-volume
+              mountPath: /app/logdir
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: information
+          persistentVolumeClaim:
+            claimName: {{ .Values.global.pvc.information }}
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.global.pvc.logs }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ .Values.global.nodeSelectorLabel.key }}
+                operator: In
+                values:
+                - {{ .Values.global.nodeSelectorLabel.value }}
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

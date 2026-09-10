@@ -1,0 +1,9 @@
+Monitor 已部署至 namespace「{{ include "monitor.namespace" . }}」。
+
+Monitor不需要手動介入即可運作，會自動輪詢Prometheus查各節點健康狀態。
+前提：叢集需已完成Prometheus部署（見 infra/操作手冊.md）。
+
+檢查Pod狀態：
+  kubectl get pods -n {{ include "monitor.namespace" . }} -l app=monitor
+查看log：
+  kubectl logs -n {{ include "monitor.namespace" . }} -l app=monitor -f

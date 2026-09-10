@@ -1,0 +1,34 @@
+# 獨立安裝這個subchart時（helm install controller ./charts/controller）會用到
+# 這份預設值；透過上層umbrella chart安裝時，這些值會被
+# helm/arha/values.yaml裡的 controller: 區塊覆蓋（同名key parent蓋過child）。
+global:
+  namespace: arha-system
+  nodeSelectorLabel:
+    key: arha-node-type
+    value: controller-node
+  pvc:
+    information: arha-system-information
+    logs: arha-logs-pvc
+
+image:
+  repository: harbor.pdc.tw/yuchiehpaper/controller
+  tag: latest
+  pullPolicy: IfNotPresent
+
+sleepMode: false
+
+replicaCount: 1
+
+service:
+  port: 80
+  targetPort: 5000
+  nodePort: 30004
+
+resources: {}
+  # 原始環境未設定requests/limits；建議至少補上requests，範例：
+  # requests:
+  #   cpu: 250m
+  #   memory: 256Mi
+
+extraContainers:
+  enabled: false

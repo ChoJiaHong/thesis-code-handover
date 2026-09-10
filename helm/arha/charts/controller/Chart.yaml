@@ -1,0 +1,6 @@
+apiVersion: v2
+name: controller
+description: 系統核心決策模組（GA/EMS/LSR/Hudson/Lai-EUA baseline求解、准入決策）
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

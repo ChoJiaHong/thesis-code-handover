@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "controller.fullname" . }}
+  namespace: {{ include "controller.namespace" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: controller
+  template:
+    metadata:
+      labels:
+        {{- include "controller.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: controller
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.sleepMode }}
+          # sleepMode=true：維持原始正式環境作法，容器啟動後不做事，
+          # 之後手動 kubectl cp 程式碼進去、exec 進容器內用uvicorn手動啟動
+          # （見 controller/操作手冊.md）。
+          command: ["sleep", "infinity"]
+          {{- end }}
+          # sleepMode=false 時不覆寫command，改吃image自己的CMD
+          # （本交接包修過的Dockerfile已經COPY好程式碼、CMD直接是
+          # uvicorn controller_v2:app --host 0.0.0.0 --port 5000）。
+          ports:
+            - name: controller
+              containerPort: 5000
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+            - name: logs-volume
+              mountPath: /app/logdir
+          env:
+            - name: OPTIMIZER_FUNCTION
+              value: "optimize"
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- if .Values.extraContainers.enabled }}
+        # result／crd-syncer：已確認與重現論文實驗無關（見操作手冊.md），
+        # 預設關閉（extraContainers.enabled=false）。開啟後仍會因為本交接包
+        # 未收錄這兩個容器的原始image而需要你自行提供，這裡僅示範原始
+        # 部署yaml的寫法供對照，不建議在重現實驗時開啟。
+        - name: result
+          image: harbor.pdc.tw/arha/result:latest
+          ports:
+            - name: result
+              containerPort: 5001
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+        - name: crd-syncer
+          image: hiro08081/crd-syncer:2
+          command: ["sleep", "infinity"]
+          volumeMounts:
+            - name: information
+              mountPath: /app/information
+        {{- end }}
+      volumes:
+        - name: information
+          persistentVolumeClaim:
+            claimName: {{ .Values.global.pvc.information }}
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.global.pvc.logs }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ .Values.global.nodeSelectorLabel.key }}
+                operator: In
+                values:
+                - {{ .Values.global.nodeSelectorLabel.value }}
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"

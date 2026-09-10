@@ -1,0 +1,64 @@
+# ── 全域共用設定（三個subchart都會讀取，經由 .Values.global.xxx）──
+# umbrella chart的values在subchart裡看到的路徑是 .Values.global.xxx（global區塊
+# 才會被所有subchart共用；其餘區塊只有同名subchart自己看得到，見下方controller/
+# agentmanager/monitor三個區塊）。
+global:
+  namespace: arha-system
+
+  # 三個服務目前都被排程限制在同一個「controller-node」標籤節點上（見原始yaml
+  # 之nodeAffinity），對應論文5-1-1節之硬體角色劃分。
+  nodeSelectorLabel:
+    key: arha-node-type
+    value: controller-node
+
+  # controller／monitor共用的兩個PVC，須由 infra/ 層先建立好（見
+  # infra/arha-pv.yaml、arha-logs-pv.yaml 與其操作手冊），此處僅參照既有名稱、
+  # 不會由本chart建立PVC本身。
+  pvc:
+    information: arha-system-information
+    logs: arha-logs-pvc
+
+# ── 各subchart設定（key須與Chart.yaml的dependencies名稱一致）──
+controller:
+  image:
+    repository: harbor.pdc.tw/yuchiehpaper/controller
+    tag: latest
+    pullPolicy: IfNotPresent
+  # true＝維持原始正式環境作法（container command改成sleep infinity，
+  # 之後手動kubectl cp程式碼進去+exec啟動，見controller/操作手冊.md）；
+  # false＝直接吃Dockerfile裡已經COPY好程式碼、CMD uvicorn的image
+  # （本交接包修過的Dockerfile就是走這條路，見controller/Dockerfile）。
+  sleepMode: false
+  service:
+    nodePort: 30004
+  # result／crd-syncer兩個容器已確認與重現實驗無關（見操作手冊.md），
+  # 預設不啟用；設true才會加回這兩個容器（原始image位置寫在下方供參考，
+  # 但本交接包未收錄其原始碼）。
+  extraContainers:
+    enabled: false
+
+agentmanager:
+  image:
+    repository: harbor.pdc.tw/yuchiehpaper/agentmanager
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    httpNodePort: 30007
+    websocketNodePort: 30008
+  # 原始設計是把這三項當command-line args傳給AgentManager_websocket_refact.py，
+  # 密碼明碼寫在Deployment spec裡；本chart改用Secret掛載成環境變數，
+  # 是「用Helm順便把一個已知的安全問題修掉」的示範，見helm/arha/README.md
+  # 「values.yaml不是存密碼的地方」一節。
+  agentHost:
+    count: 1
+    ip: "CHANGE_ME"
+    account: "CHANGE_ME"
+    password: "CHANGE_ME"
+
+monitor:
+  image:
+    repository: hiro08081/monitor_mul
+    tag: "2"
+    pullPolicy: Always
+  service:
+    nodePort: 30005

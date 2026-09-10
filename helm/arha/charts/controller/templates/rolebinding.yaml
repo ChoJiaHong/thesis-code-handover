@@ -1,0 +1,15 @@
+# ClusterRoleBinding是cluster層級資源（不屬於任何namespace），但綁定對象
+# （ServiceAccount）仍要指定namespace。Controller需要這個權限才能透過
+# Kubernetes API動態建立/刪除推論服務Pod、查詢節點狀態。
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: access-nodes
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: {{ include "controller.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,32 @@
+global:
+  namespace: arha-system
+  nodeSelectorLabel:
+    key: arha-node-type
+    value: controller-node
+  pvc:
+    logs: arha-logs-pvc
+
+image:
+  repository: harbor.pdc.tw/yuchiehpaper/agentmanager
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  httpPort: 8888
+  httpNodePort: 30007
+  websocketPort: 50051
+  websocketNodePort: 30008
+
+# Agent_Host（Computing Node）的SSH連線資訊，AgentManager用這組帳密透過SSH
+# 到Computing Node上建立Agent容器。這三個值不放在明碼的values.yaml裡，而是
+# 由helm install/upgrade時用--set或-f一份不進版控的values檔覆蓋，實際存放
+# 進K8s Secret，見templates/secret.yaml與README.md「密碼不進values.yaml」一節。
+agentHost:
+  count: 1
+  ip: "CHANGE_ME"
+  account: "CHANGE_ME"
+  password: "CHANGE_ME"
+
+resources: {}

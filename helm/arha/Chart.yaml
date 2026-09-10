@@ -1,0 +1,20 @@
+apiVersion: v2
+name: arha
+description: >
+  應用程式層 umbrella chart，打包 controller／agentmanager／monitor 三個長駐服務。
+  對應論文之邊緣AI推論聯合優化系統；叢集建置層（K8s本身、GPU Time-Slicing、
+  Prometheus/Grafana）不在此chart範圍內，見 infra/ 操作手冊.md，須先完成。
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: controller
+    version: "0.1.0"
+    repository: "file://charts/controller"
+  - name: agentmanager
+    version: "0.1.0"
+    repository: "file://charts/agentmanager"
+  - name: monitor
+    version: "0.1.0"
+    repository: "file://charts/monitor"
