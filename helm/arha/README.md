@@ -138,6 +138,68 @@ helm install arha arha-0.1.0.tgz
    這個做法對「持續維護、多人共用」的專案比較划算；單純交接一次性的專案
    （像這份交接包）用第1種做法就好，架repo是多做工。
 
+## 上架Artifact Hub（讓別人在artifacthub.io搜得到）
+
+Artifact Hub（artifacthub.io）本身**不存放**chart，它是一個索引／搜尋引擎，
+指向別人架好的chart repository。所以流程是：先架一個公開可存取的repository，
+再去Artifact Hub登記那個網址。
+
+這份repo已經幫你做了第一步——用GitHub Pages架好了：
+
+```
+gh-pages分支（獨立的orphan分支，跟master完全分開，不含thesis程式碼）
+├── arha-0.1.0.tgz         helm package打包好的chart
+├── index.yaml             helm repo index產生的索引
+├── artifacthub-repo.yml   Artifact Hub擁有權驗證檔（見下方步驟2）
+├── index.html             瀏覽器直接開網址時看到的說明頁
+└── .nojekyll              關掉GitHub Pages預設的Jekyll處理，直接serve原始檔案
+```
+
+**還剩兩個手動步驟，這兩個都要在網頁上點，我沒辦法代你操作：**
+
+**步驟1：開啟GitHub Pages**
+1. 到 `https://github.com/ChoJiaHong/thesis-code-handover/settings/pages`
+2. Source選「Deploy from a branch」，Branch選`gh-pages` / `/ (root)`，Save
+3. 等1-2分鐘，開`https://chojiahong.github.io/thesis-code-handover/index.yaml`
+   確認能看到內容（不是404）
+
+開通後別人（或你自己）就能：
+```bash
+helm repo add arha https://chojiahong.github.io/thesis-code-handover
+helm repo update
+helm install my-arha arha/arha
+```
+
+**步驟2：到Artifact Hub登記**
+1. 到 [artifacthub.io](https://artifacthub.io) 註冊／登入（用你GitHub帳號即可）
+2. Control Panel → Repositories → Add repository
+3. Kind選「Helm charts」，Repository URL填
+   `https://chojiahong.github.io/thesis-code-handover`
+4. 送出後Artifact Hub會給你一個`repositoryID`（一組UUID），這是用來證明
+   「這個repo真的是你的」——回到`gh-pages`分支的`artifacthub-repo.yml`，
+   把裡面註解掉的`repositoryID:`那行取消註解、貼上這個值，重新commit＋push
+   到`gh-pages`分支（**不是master**）
+5. Artifact Hub每隔一段時間會重新掃描，掃到`repositoryID`吻合後這個repo
+   就會標記為verified，之後每次你重新`helm package`＋更新`index.yaml`並
+   push到`gh-pages`，Artifact Hub都會自動抓到新版本
+
+**之後要發新版時的固定流程**（chart內容有改，例如controller的values.yaml
+調整過）：
+
+```bash
+# 1. 在master分支：改Chart.yaml的version、改完templates，跟平常一樣commit
+# 2. 重新打包
+cd helm/arha && helm package .
+# 3. 切到gh-pages分支，把新的.tgz複製進去、合併進index.yaml（不是覆蓋！
+#    --merge會保留舊版本紀錄，Artifact Hub跟helm repo update都需要看到
+#    完整版本歷史，不能只留最新一版）
+git checkout gh-pages
+cp ../../arha-0.1.x.tgz .
+helm repo index . --url https://chojiahong.github.io/thesis-code-handover --merge index.yaml
+git add . && git commit -m "arha 0.1.x" && git push
+git checkout master
+```
+
 ## 真的要裝到叢集上（需要`infra/`層已完成）
 
 裝之前，這些前提要先滿足（見`infra/操作手冊.md`）：
