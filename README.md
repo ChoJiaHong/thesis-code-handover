@@ -42,6 +42,7 @@ experiments/      實驗控制腳本、離線壓測腳本、複雜度驗證腳�
 plotting/         論文圖表繪製腳本（plot_compare.py、plot_trace.py）
 data/             論文fig5/6/7與消融實驗fig_ablation1/2之原始CSV資料
 docs/             部署指令、資料來源對照等說明文件
+helm/             Helm chart（controller/agentmanager/monitor三合一打包），見helm/arha/README.md
 ```
 
 ## 部署方式
@@ -51,7 +52,8 @@ docs/             部署指令、資料來源對照等說明文件
 
 系統以 Kubernetes 部署，各元件之 `*-deployment.yaml`／`*-service.yaml` 位於對應目錄下；
 `controller/service_yaml/`、`controller/deamonse_service/` 為 gesture/pose/object 三項推論服務
-之部署設定。
+之部署設定。**`helm/arha/`提供打包好的Helm chart**，可取代手動`kubectl apply`多份yaml
+的流程（`agent`與上述兩個動態Pod模板目錄不在chart範圍內，原因見`helm/arha/README.md`）。
 
 ## 如何重現論文實驗數字
 
