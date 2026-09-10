@@ -75,6 +75,69 @@ helm template arha . --set controller.sleepMode=true \
 這就是`charts/controller/templates/deployment.yaml`裡`{{- if .Values.sleepMode }}`
 那段條件判斷在起作用。回去翻那個檔案對照著看，會比看任何教學文章都直觀。
 
+## 打包（`helm package`）——把整個chart變成一個檔案
+
+到目前為止都是直接對著`arha/`這個資料夾跑指令（`helm template .`、`helm install .`）。
+但如果要把chart交給別人（例如學弟），與其叫他clone整個`thesis-code-handover`
+repo再找到`helm/arha/`這個路徑，不如直接打包成一個檔案給他：
+
+```bash
+cd thesis-code-handover/helm/arha
+helm package .
+```
+
+會在目前目錄產生`arha-0.1.0.tgz`——這個版本號**不是隨便來的，是抄
+`Chart.yaml`裡的`version:`欄位**。改一下版本號、重新打包，檔名會跟著換：
+
+```bash
+# 例如你改了controller的deployment.yaml，想標記這是新的一版chart
+sed -i 's/^version: 0.1.0/version: 0.1.1/' Chart.yaml
+helm package .        # 這次會產生 arha-0.1.1.tgz
+```
+
+**這裡有兩個version，容易搞混，值得記清楚**：
+- `Chart.yaml`的`version:`——chart本身的版本（模板、values結構有改就該bump）
+- `Chart.yaml`的`appVersion:`——裡面部署的應用程式版本（controller_v2.py
+  是哪一版，跟chart模板寫得好不好無關），純粹給人看的標籤，不影響任何行為
+
+打包出來的`.tgz`是**自我完整**的——把umbrella chart跟三個subchart（`charts/`
+底下那三包）、連同這份`README.md`全部打包進去一個檔案，不需要額外複製`charts/`
+資料夾：
+
+```bash
+# 看裡面實際裝了什麼（會看到 arha/charts/controller/... 等完整路徑）
+tar -tzf arha-0.1.0.tgz
+
+# 直接從這個.tgz渲染／安裝，效果跟對著資料夾跑一模一樣，不用先解壓縮
+helm template arha arha-0.1.0.tgz
+helm install arha arha-0.1.0.tgz
+```
+
+### 怎麼分享給別人（依複雜度排序）
+
+1. **最簡單：直接把`.tgz`檔案傳給對方**（email、雲端硬碟、或跟這個git repo
+   一起commit）。對方拿到後`helm install arha arha-0.1.0.tgz`就能裝，
+   不需要`helm repo add`這些額外設定。**這個專案的規模（交接給一個學弟），
+   這樣做就夠了，不需要下面第2種做法。**
+2. **進階：架一個chart repository**，讓別人可以`helm repo add`＋
+   `helm search repo`找到你的chart、之後`helm upgrade`也能直接抓新版本，
+   不用每次都手動傳檔案。做法是把打包好的`.tgz`跟一份`index.yaml`
+   （下面指令產生）放到同一個能用http存取的地方（例如GitHub Pages）：
+
+   ```bash
+   helm repo index . --url https://<你的域名或GitHub Pages網址>/charts
+   # 會產生index.yaml，記錄repo裡有哪些chart、哪些版本、去哪個url下載
+   ```
+
+   對方那邊就變成：
+   ```bash
+   helm repo add arha https://<你的域名>/charts
+   helm install my-arha arha/arha
+   ```
+
+   這個做法對「持續維護、多人共用」的專案比較划算；單純交接一次性的專案
+   （像這份交接包）用第1種做法就好，架repo是多做工。
+
 ## 真的要裝到叢集上（需要`infra/`層已完成）
 
 裝之前，這些前提要先滿足（見`infra/操作手冊.md`）：
