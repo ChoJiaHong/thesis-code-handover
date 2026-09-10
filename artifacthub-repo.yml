@@ -1,0 +1,8 @@
+# Artifact Hub擁有權驗證檔——在artifacthub.io「Add Repository」流程走完後，
+# 對方會給一組repositoryID，回來把下面這行的註解拿掉、填入該ID。
+# owners底下的email要跟你Artifact Hub帳號註冊的email一致，Hub才會顯示你是
+# 這個repo的verified owner。
+# repositoryID: <貼上Artifact Hub給的UUID>
+owners:
+  - name: ChoJiaHong
+    email: hiro08081@gmail.com

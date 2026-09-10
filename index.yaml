@@ -1,0 +1,42 @@
+apiVersion: v1
+entries:
+  arha:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: 初版：controller/agentmanager/monitor三個subchart
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-09-10T13:00:51.878133664Z"
+    dependencies:
+    - name: controller
+      repository: file://charts/controller
+      version: 0.1.0
+    - name: agentmanager
+      repository: file://charts/agentmanager
+      version: 0.1.0
+    - name: monitor
+      repository: file://charts/monitor
+      version: 0.1.0
+    description: '應用程式層 umbrella chart，打包 controller／agentmanager／monitor 三個長駐服務。
+      對應論文之邊緣AI推論聯合優化系統；叢集建置層（K8s本身、GPU Time-Slicing、 Prometheus/Grafana）不在此chart範圍內，見
+      infra/ 操作手冊.md，須先完成。 '
+    digest: 4fd4942de2b1fe7e7ab9415c584e2a9653a3fa499a12355202cdfe35f7a6e4cb
+    home: https://github.com/ChoJiaHong/thesis-code-handover
+    keywords:
+    - edge-computing
+    - mec
+    - kubernetes
+    - gpu-sharing
+    maintainers:
+    - email: hiro08081@gmail.com
+      name: ChoJiaHong
+      url: https://github.com/ChoJiaHong
+    name: arha
+    sources:
+    - https://github.com/ChoJiaHong/thesis-code-handover
+    type: application
+    urls:
+    - https://chojiahong.github.io/thesis-code-handover/arha-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-09-10T13:00:51.877110358Z"
